@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import './App.css';
 import {v1} from 'uuid';
-import {ShoppingList} from './ShoppingList';
+import {ShoppingList} from './components/ShoppingList';
 
-export type ProductType = 'All' | 'Bakery' | 'Milk' | 'Meat'
+
+export type ProductType = 'Product' | 'Bakery' | 'Milk' | 'Meat'
 export type СheckedType = 'All' | 'Active' | 'Completed'
 
 export type ShoppingListType = {
@@ -24,10 +25,21 @@ const ShoppingListData: ShoppingListType[] = [
 export default function App() {
 
   const [shopping, setShopping] = useState<ShoppingListType[]>(ShoppingListData)
+  const [value, setValue] = useState<string>('')
+
+  const addProduct = (product: ProductType) => {
+    const newProduct = {id: v1(), title: value, product: product, checked: true}
+    setShopping([newProduct, ...ShoppingListData])
+  }
 
   return (
     <div className="App">
-      <ShoppingList shopping={shopping}/>
+      <h1>Sopping list</h1>
+      <ShoppingList shopping={shopping}
+                    value={value}
+                    setValue={setValue}
+                    addProduct={addProduct}
+      />
     </div>
   );
 }
