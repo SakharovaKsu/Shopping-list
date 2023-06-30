@@ -29,9 +29,12 @@ export default function App() {
 
   const addProduct = (product: ProductType) => {
     const newProduct = {id: v1(), title: value, product: product, checked: true}
-    setShopping([newProduct, ...ShoppingListData])
+    setShopping([newProduct, ...shopping])
   }
 
+  const removeProduct = (id: string) => {
+    setShopping(shopping.filter(s => s.id !== id))
+  }
   return (
     <div className="App">
       <h1>Sopping list</h1>
@@ -39,6 +42,7 @@ export default function App() {
                     value={value}
                     setValue={setValue}
                     addProduct={addProduct}
+                    removeProduct={removeProduct}
       />
     </div>
   );

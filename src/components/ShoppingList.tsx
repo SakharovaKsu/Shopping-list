@@ -7,6 +7,7 @@ type ShoppingListPropsType = {
     value: string
     setValue: (text:string) => void
     addProduct: (product: ProductType) => void
+    removeProduct: (id: string) => void
 }
 
 export const ShoppingList:FC<ShoppingListPropsType> = (
@@ -14,7 +15,8 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
         shopping,
         value,
         setValue,
-        addProduct
+        addProduct,
+        removeProduct
     }) => {
 
     const [product, setProduct] = useState<ProductType>('Product')
@@ -30,8 +32,8 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
 
     }
 
-    const RemoveButtonHandler = () => {
-
+    const RemoveButtonHandler = (id: string) => {
+        removeProduct(id)
     }
 
     const onChangeProductHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -48,7 +50,7 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                 <input type="checkbox" checked={l.checked}/>
                 <span> {l.title} </span>
                 <span> Product: {l.product}</span>
-                <button onClick={RemoveButtonHandler}>X</button>
+                <button onClick={() => RemoveButtonHandler(l.id)}>X</button>
             </li>
         )
     })
