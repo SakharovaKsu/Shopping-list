@@ -27,11 +27,13 @@ export default function App() {
   const [shopping, setShopping] = useState<ShoppingListType[]>(ShoppingListData)
   const [value, setValue] = useState<string>('')
 
+  // Добавление продукта
   const addProduct = (product: ProductType) => {
     const newProduct = {id: v1(), title: value, product: product, checked: true}
     setShopping([newProduct, ...shopping])
   }
 
+  // Удаление продукта
   const removeProduct = (id: string) => {
     setShopping(shopping.filter(s => s.id !== id))
   }

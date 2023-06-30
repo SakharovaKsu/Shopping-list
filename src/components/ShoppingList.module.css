@@ -8,8 +8,13 @@
 }
 
 .item {
+    display: flex;
     list-style-type: none;
-    padding: 0;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px #cbcbcb;
 }
 
 .container {
@@ -21,4 +26,26 @@
 .subTitle {
     font-size: 12px;
     margin: 0;
+}
+
+.button {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFB300;
+    color: #ffffff;
+    border: none;
+}
+
+.buttonSmall {
+    padding: 1px 7px;
+    font-size: 12px;
+    border-radius: 50%;
+    margin-left: auto;
+}
+
+.buttonBig {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    text-transform: uppercase;
 }

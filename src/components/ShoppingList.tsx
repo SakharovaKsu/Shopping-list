@@ -50,7 +50,7 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                 <input type="checkbox" checked={l.checked}/>
                 <span> {l.title} </span>
                 <span> Product: {l.product}</span>
-                <button onClick={() => RemoveButtonHandler(l.id)}>X</button>
+                <button className={s.button+ ' ' + s.buttonSmall} onClick={() => RemoveButtonHandler(l.id)}>X</button>
             </li>
         )
     })
@@ -69,7 +69,7 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                     <option value={'Meat'}>Meat</option>
                     <option value={'Sweets'}>Sweets</option>
                 </select>
-                <button onClick={AddButtonHandler}>Add</button>
+                <button className={s.button + ' ' + s.buttonBig} onClick={AddButtonHandler}>Add</button>
             </div>
             <div>
                 <ul className={s.list}>
