@@ -1,5 +1,5 @@
-import React, {ChangeEvent, FC, FormEvent, KeyboardEvent, useState} from 'react';
-import {FilterProduct, ProductType, ShoppingListType, СheckedType} from '../App';
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import {CheckedType, ProductType, ShoppingListType} from '../App';
 import s from './ShoppingList.module.css'
 
 type ShoppingListPropsType = {
@@ -8,7 +8,7 @@ type ShoppingListPropsType = {
     setValue: (text:string) => void
     addProduct: (product: ProductType) => void
     removeProduct: (id: string) => void
-    changeFilterStatus: (filter: СheckedType) => void
+    changeFilterStatus: (filter: CheckedType) => void
     changeFilterProduct: (filter: ProductType) => void
     changeStatusProduct: (id: string, checkedValue: boolean) => void
 }
@@ -63,7 +63,7 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
 
     // Узнаем значение статуса у select
     const onChangeStatusHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-        const filter = e.currentTarget.value as СheckedType
+        const filter = e.currentTarget.value as CheckedType
         changeFilterStatus(filter)
     }
 
@@ -82,9 +82,12 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
 
         return (
             <li className={s.item} key={l.id}>
-                <input type="checkbox" checked={l.checked} onChange={changeStatusProductHandler}/>
+                <label className={s.label}>
+                    <input className={s.checkbox} type="checkbox" checked={l.checked} onChange={changeStatusProductHandler}/>
+                    <span className={s.checkboxSpan}></span>
+                </label>
                 <span> {l.title} </span>
-                <span> Product: {l.product}</span>
+                <span className={s.productSubTitle}>{l.product}</span>
                 <button className={s.button+ ' ' + s.buttonSmall} onClick={() => RemoveButtonHandler(l.id)}>—</button>
             </li>
         )
@@ -92,14 +95,15 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
 
     return (
         <div className={s.box}>
-            <h2>Purchases for today</h2>
+            <h2 className={s.title}>Purchases for today</h2>
             <div className={s.container}>
-                <div>
-                    <input placeholder={'What to buy'}
+                <div className={s.addProduct}>
+                    <input className={s.inputTitle}
+                           placeholder={'What to buy'}
                            value={value}
                            onChange={onChangeValueHandler}
                            onKeyDown={onKeyDownHandler}/>
-                    <select value={product} onChange={onChangeProductHandler}>
+                    <select className={s.selectProduct} value={product} onChange={onChangeProductHandler}>
                         <option value={'Product'}>Product</option>
                         <option value={'Bakery'}>Bakery</option>
                         <option value={'Milk'}>Milk</option>
@@ -107,22 +111,6 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                         <option value={'Sweets'}>Sweets</option>
                     </select>
                     <button className={s.button + ' ' + s.buttonBig} onClick={AddButtonHandler}>Add</button>
-                </div>
-                <div>
-                    <select onChange={onChangeStatusHandler}>
-                        <option value={'All'}>All</option>
-                        <option value={'Active'}>Active</option>
-                        <option value={'Completed'}>Completed</option>
-                    </select>
-                </div>
-                <div>
-                    <select onChange={onChangeFilterProduct}>
-                        <option value={'Product'}>Product</option>
-                        <option value={'Bakery'}>Bakery</option>
-                        <option value={'Milk'}>Milk</option>
-                        <option value={'Meat'}>Meat</option>
-                        <option value={'sweets'}>Sweets</option>
-                    </select>
                 </div>
             </div>
 
@@ -132,6 +120,20 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                 </ul>
             </div>
 
+            <div className={s.selectContainer}>
+                <select className={s.selectProduct} onChange={onChangeStatusHandler}>
+                    <option value={'All'}>All</option>
+                    <option value={'Active'}>Active</option>
+                    <option value={'Completed'}>Completed</option>
+                </select>
+                <select className={s.selectProduct} onChange={onChangeFilterProduct}>
+                    <option value={'Product'}>Product</option>
+                    <option value={'Bakery'}>Bakery</option>
+                    <option value={'Milk'}>Milk</option>
+                    <option value={'Meat'}>Meat</option>
+                    <option value={'sweets'}>Sweets</option>
+                </select>
+            </div>
         </div>
     );
 };

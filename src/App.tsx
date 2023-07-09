@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import './App.css';
+import s from './App.module.css';
 import {v1} from 'uuid';
 import {ShoppingList} from './components/ShoppingList';
 
 
 export type ProductType = 'Product' | 'Bakery' | 'Milk' | 'Meat' | 'Sweets'
-export type СheckedType = 'All' | 'Active' | 'Completed'
+export type CheckedType = 'All' | 'Active' | 'Completed'
 
-export type FilterProduct = ProductType | СheckedType
+export type FilterProduct = ProductType | CheckedType
 
 export type ShoppingListType = {
   id: string
@@ -30,7 +30,7 @@ export default function App() {
   const [shopping, setShopping] = useState<ShoppingListType[]>(ShoppingListData)
   const [value, setValue] = useState<string>('')
   const [filterProduct, setFilterProduct] = useState<ProductType>('Product')
-  const [filterStatus, setFilterStatus] = useState<СheckedType>('All')
+  const [filterStatus, setFilterStatus] = useState<CheckedType>('All')
 
   // Добавление продукта
   const addProduct = (product: ProductType) => {
@@ -47,7 +47,7 @@ export default function App() {
   const getFilterShopping = filterProduct === 'Product' ? shopping : shopping.filter(p => p.product === filterProduct)
   const changeFilterShopping = filterStatus === 'All' ? getFilterShopping : filterStatus === 'Active' ? getFilterShopping.filter(p => !p.checked) : getFilterShopping.filter(p => p.checked)
 
-  const changeFilterStatus = (filterStatus:СheckedType) => {
+  const changeFilterStatus = (filterStatus:CheckedType) => {
     setFilterStatus(filterStatus)
   }
 
@@ -62,7 +62,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>Sopping list</h1>
+      <h1 className={s.title}>Sopping list</h1>
       <ShoppingList shopping={changeFilterShopping}
                     value={value}
                     setValue={setValue}
