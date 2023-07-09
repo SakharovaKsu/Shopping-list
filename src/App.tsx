@@ -43,34 +43,9 @@ export default function App() {
     setShopping(shopping.filter(s => s.id !== id))
   }
 
-  const getFilterProductStatus = (product: ShoppingListType[], filter: СheckedType) => {
-    switch (filter) {
-      case 'Active':
-        return shopping.filter(s => !s.checked)
-      case 'Completed':
-        return shopping.filter(s => s.checked)
-      default:
-        return shopping
-    }
-  }
-
-  const getFilterProduct = (product: ShoppingListType[], filter: ProductType) => {
-    switch (filter) {
-      case 'Bakery':
-        return shopping.filter(s => s.product === 'Bakery')
-      case 'Milk':
-        return shopping.filter(s => s.product === 'Milk')
-      case 'Meat':
-        return shopping.filter(s => s.product === 'Meat')
-      case 'Sweets':
-        return shopping.filter(s => s.product === 'Sweets')
-      default:
-        return shopping
-    }
-  }
-
-  const filteredStatusProduct = getFilterProductStatus(shopping, filterStatus)
-  const filteredProduct = getFilterProduct(shopping, filterProduct)
+  // Фильтрация продуктов по категориям и активности
+  const getFilterShopping = filterProduct === 'Product' ? shopping : shopping.filter(p => p.product === filterProduct)
+  const changeFilterShopping = filterStatus === 'All' ? getFilterShopping : filterStatus === 'Active' ? getFilterShopping.filter(p => !p.checked) : getFilterShopping.filter(p => p.checked)
 
   const changeFilterStatus = (filterStatus:СheckedType) => {
     setFilterStatus(filterStatus)
@@ -80,16 +55,22 @@ export default function App() {
     setFilterProduct(filterProduct)
   }
 
+  // Меняем статус продукта
+  const changeStatusProduct = (id: string, checkedValue: boolean) => {
+    setShopping(shopping.map(p => p.id === id ? {...p, checked: checkedValue} : p))
+  }
+
   return (
     <div className="App">
       <h1>Sopping list</h1>
-      <ShoppingList shopping={filteredProduct}
+      <ShoppingList shopping={changeFilterShopping}
                     value={value}
                     setValue={setValue}
                     addProduct={addProduct}
                     removeProduct={removeProduct}
                     changeFilterStatus={changeFilterStatus}
                     changeFilterProduct={changeFilterProduct}
+                    changeStatusProduct={changeStatusProduct}
       />
     </div>
   );

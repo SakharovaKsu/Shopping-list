@@ -10,6 +10,7 @@ type ShoppingListPropsType = {
     removeProduct: (id: string) => void
     changeFilterStatus: (filter: СheckedType) => void
     changeFilterProduct: (filter: ProductType) => void
+    changeStatusProduct: (id: string, checkedValue: boolean) => void
 }
 
 export const ShoppingList:FC<ShoppingListPropsType> = (
@@ -20,7 +21,8 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
         addProduct,
         removeProduct,
         changeFilterStatus,
-        changeFilterProduct
+        changeFilterProduct,
+        changeStatusProduct
     }) => {
 
     const [product, setProduct] = useState<ProductType>('Product')
@@ -72,9 +74,15 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
     }
 
     const list = shopping.map(l => {
+        // Меняем статус у продукта
+        const changeStatusProductHandler = (e:ChangeEvent<HTMLInputElement>) => {
+            const checkedValue = e.currentTarget.checked
+            changeStatusProduct(l.id, checkedValue)
+        }
+
         return (
             <li className={s.item} key={l.id}>
-                <input type="checkbox" checked={l.checked}/>
+                <input type="checkbox" checked={l.checked} onChange={changeStatusProductHandler}/>
                 <span> {l.title} </span>
                 <span> Product: {l.product}</span>
                 <button className={s.button+ ' ' + s.buttonSmall} onClick={() => RemoveButtonHandler(l.id)}>—</button>
@@ -101,7 +109,6 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                     <button className={s.button + ' ' + s.buttonBig} onClick={AddButtonHandler}>Add</button>
                 </div>
                 <div>
-                    <h3 className={s.subTitle}>Filter by active</h3>
                     <select onChange={onChangeStatusHandler}>
                         <option value={'All'}>All</option>
                         <option value={'Active'}>Active</option>
@@ -109,7 +116,6 @@ export const ShoppingList:FC<ShoppingListPropsType> = (
                     </select>
                 </div>
                 <div>
-                    <h3 className={s.subTitle}>Filter by product</h3>
                     <select onChange={onChangeFilterProduct}>
                         <option value={'Product'}>Product</option>
                         <option value={'Bakery'}>Bakery</option>
